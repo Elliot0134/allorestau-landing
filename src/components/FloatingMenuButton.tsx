@@ -41,7 +41,7 @@ const FloatingMenuButton = () => {
   return (
     <AnimatePresence>
       {isVisible && (
-        <div className="fixed bottom-8 left-0 right-0 z-50 flex justify-center pointer-events-none">
+        <div className="fixed bottom-8 left-0 right-0 z-50 flex justify-start px-4 md:justify-center pointer-events-none">
           <motion.button
             initial={{ y: 100, opacity: 0 }}
             animate={{
