@@ -194,9 +194,10 @@ const HeroSection = () => {
           <img
             src={themeBgSvg[theme]}
             alt=""
-            className="w-full h-full object-cover md:object-contain"
+            className="w-full h-full object-cover"
             style={{
-              objectPosition: 'center'
+              objectPosition: 'center',
+              objectFit: 'cover'
             }}
           />
         </motion.div>
@@ -287,38 +288,40 @@ const HeroSection = () => {
       {/* Content */}
       <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
         <div className="space-y-6">
-          {/* Logo AlloRestau dynamique */}
-          <AnimatePresence mode="wait">
-            <motion.div
-            key={`logo-${theme}`}
-            initial={{
-              opacity: 0,
-              scale: 0.96,
-              filter: 'blur(6px)'
-            }}
-            animate={{
-              opacity: 1,
-              scale: 1,
-              filter: 'blur(0px)'
-            }}
-            exit={{
-              opacity: 0,
-              scale: 1.04,
-              filter: 'blur(6px)'
-            }}
-            transition={{
-              duration: 0.5,
-              ease: [0.4, 0, 0.2, 1]
-            }}
-            className="flex justify-center"
-          >
-            <img
-              src={themeLogo[theme]}
-              alt={`AlloRestau ${content.name} - Ne perdez plus jamais une commande`}
-              className="w-full max-w-md h-auto drop-shadow-2xl"
-            />
-            </motion.div>
-          </AnimatePresence>
+          {/* Logo AlloRestau dynamique - Conteneur avec hauteur fixe pour éviter le "jump" */}
+          <div className="flex justify-center" style={{ minHeight: '200px' }}>
+            <AnimatePresence mode="wait">
+              <motion.div
+              key={`logo-${theme}`}
+              initial={{
+                opacity: 0,
+                scale: 0.96,
+                filter: 'blur(6px)'
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+                filter: 'blur(0px)'
+              }}
+              exit={{
+                opacity: 0,
+                scale: 1.04,
+                filter: 'blur(6px)'
+              }}
+              transition={{
+                duration: 0.5,
+                ease: [0.4, 0, 0.2, 1]
+              }}
+              className="flex justify-center"
+            >
+              <img
+                src={themeLogo[theme]}
+                alt={`AlloRestau ${content.name} - Ne perdez plus jamais une commande`}
+                className="w-full max-w-md h-auto drop-shadow-2xl"
+              />
+              </motion.div>
+            </AnimatePresence>
+          </div>
 
           {/* CTA Button - Brutalist Style */}
           <motion.button
