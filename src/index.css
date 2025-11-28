@@ -305,13 +305,32 @@ html.lenis, html.lenis body {
 
   /* Brutalist Card Hover - Dynamic and Fast */
   .brutalist-card-hover {
+    box-shadow: none;
     transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1),
                 box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  @media (min-width: 640px) {
+    .brutalist-card-hover {
+      box-shadow: 12px 12px 0 #000;
+    }
+  }
+
   .brutalist-card-hover:hover {
     transform: translate(-3px, -3px) scale(1.03);
-    box-shadow: 13px 13px 0 #000 !important;
+  }
+
+  @media (min-width: 640px) {
+    .brutalist-card-hover:hover {
+      box-shadow: 13px 13px 0 #000 !important;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .brutalist-card-hover:hover {
+      box-shadow: none !important;
+      transform: scale(1.02);
+    }
   }
 
   /* Text Styles */

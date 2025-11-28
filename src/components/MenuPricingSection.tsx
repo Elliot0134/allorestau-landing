@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import ReceiptTicket from './ReceiptTicket';
 import BrutalistCard from './BrutalistCard';
+import FixedBillButton from './FixedBillButton';
 
 interface MenuItem {
   id: string;
@@ -19,6 +20,13 @@ const MenuPricingSection = () => {
     threshold: 0.1,
     triggerOnce: true
   });
+
+  const [receiptObserverRef, receiptInView] = useInView({
+    threshold: 0.3,
+    triggerOnce: false
+  });
+
+  const receiptScrollRef = useRef<HTMLDivElement>(null);
 
   const menuItems: MenuItem[] = [
     // ENTRÉES (Obligatoires)
@@ -198,6 +206,13 @@ const MenuPricingSection = () => {
 
   const { monthly, oneTime } = calculateTotal();
 
+  const scrollToBill = () => {
+    // En mobile, scroll vers le ReceiptTicket qui est en dessous de la liste des items
+    if (receiptScrollRef.current) {
+      receiptScrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
+
   const categoryTitles = {
     entrees: { main: 'ENTRÉES', sub: 'Obligatoires' },
     plats: { main: 'PLATS', sub: 'Options principales' },
@@ -280,7 +295,7 @@ const MenuPricingSection = () => {
   };
 
   return (
-    <section id="menu-pricing" ref={ref} className="relative py-32 px-6" aria-labelledby="pricing-title">
+    <section id="menu-pricing" ref={ref} className="relative py-32 px-4 md:px-6" aria-labelledby="pricing-title">
       {/* Grid Pattern Background */}
       <div
         className="absolute top-0 right-0 left-0 pointer-events-none"
@@ -304,7 +319,7 @@ const MenuPricingSection = () => {
         />
       </div>
 
-      <div className="w-[95%] md:max-w-5xl mx-auto relative z-10">
+      <div className="max-w-5xl mx-auto relative z-10">
         <div className="grid lg:grid-cols-3 gap-4 md:gap-8">
           {/* Menu Items Column */}
           <div className="lg:col-span-2">
@@ -336,6 +351,12 @@ const MenuPricingSection = () => {
           {/* Sticky Cart Column */}
           <div className="lg:col-span-1 relative h-full">
             <motion.div
+              ref={(node) => {
+                receiptObserverRef(node);
+                if (node && receiptScrollRef) {
+                  (receiptScrollRef as any).current = node;
+                }
+              }}
               initial={{ opacity: 0, x: 20 }}
               animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.4 }}
@@ -350,6 +371,13 @@ const MenuPricingSection = () => {
           </div>
         </div>
       </div>
+
+      {/* Fixed Bill Button - Mobile Only */}
+      <FixedBillButton
+        monthly={monthly}
+        isVisible={inView && !receiptInView}
+        onClick={scrollToBill}
+      />
     </section>
   );
 };

@@ -21,9 +21,13 @@ const ElevenLabsWidget = () => {
   }, []);
 
   return (
-    <elevenlabs-convai
-      agent-id="agent_6201kb2b1cqff8v9d5vxdk3rhc4g"
-    />
+    <div className="fixed z-[999999]" style={{ pointerEvents: 'none' }}>
+      <div style={{ pointerEvents: 'auto' }}>
+        <elevenlabs-convai
+          agent-id="agent_6201kb2b1cqff8v9d5vxdk3rhc4g"
+        />
+      </div>
+    </div>
   );
 };
 

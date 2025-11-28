@@ -14,6 +14,7 @@ import Footer from '@/components/Footer';
 import SmoothScroll from '@/components/SmoothScroll';
 import ThemeSelectionModal from '@/components/ThemeSelectionModal';
 import Loader from '@/components/Loader';
+import SpotlightOverlay from '@/components/SpotlightOverlay';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeType } from '@/types/theme';
 
@@ -41,6 +42,7 @@ const getInitialThemeColor = (): string => {
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [showSpotlight, setShowSpotlight] = useState(false);
   // Initialiser avec la bonne couleur dès le début
   const [loaderBg] = useState<string>(getInitialThemeColor());
 
@@ -78,13 +80,17 @@ const Index = () => {
           >
             <ThemeSelectionModal />
             <SmoothScroll />
-            <div className="min-h-screen theme-transition">
+            <SpotlightOverlay isVisible={showSpotlight} onClose={() => setShowSpotlight(false)} />
+            <div
+              className="min-h-screen theme-transition"
+              style={{ backgroundColor: 'hsl(var(--theme-bg))' }}
+            >
               <Header />
               <FloatingMenuButton />
               <main>
                 <HeroSection />
                 <IntroSection />
-                <TestIASection />
+                <TestIASection onStartCall={() => setShowSpotlight(true)} />
                 <WorkflowSection />
                 <StatsSection />
                 <MenuPricingSection />

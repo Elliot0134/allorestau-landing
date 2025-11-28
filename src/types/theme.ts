@@ -13,7 +13,7 @@ export const themeContents: Record<ThemeType, ThemeContent> = {
   pizzeria: {
     name: 'Pizzerias',
     icon: '🍕',
-    heroTitle: 'Trop de commandes pendant le rush du vendredi soir ?',
+    heroTitle: 'Le rush du vendredi vous noie ?',
     heroSubtitle: "AlloRestau prend toutes vos commandes de pizzas pendant que vous vous concentrez sur votre four. Margherita, 4 fromages, suppléments... L'IA connaît votre carte par cœur.",
     painPoints: [
       'Impossible de répondre quand je fais 20 pizzas en même temps',

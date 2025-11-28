@@ -1,22 +1,24 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '@/contexts/ThemeContext';
-import ElevenLabsVoiceAgent from '@/components/ElevenLabsVoiceAgent';
 
-const TestIASection = () => {
+interface TestIASectionProps {
+  onStartCall: () => void;
+}
+
+const TestIASection = ({ onStartCall }: TestIASectionProps) => {
   const { theme } = useTheme();
   const [showModal, setShowModal] = useState(false);
 
-  // ElevenLabs Agent ID
-  const AGENT_ID = 'agent_6201kb2b1cqff8v9d5vxdk3rhc4g';
-
-  const handleConversationEnd = () => {
-    // Show modal after conversation ends
-    setShowModal(true);
+  // Images par thème
+  const themeImages = {
+    pizzeria: '/assets/pizza_slice_pepperoni_1763911115743.png',
+    snack: '/assets/burger_realistic_1763911178588.png',
+    restaurant: '/assets/pasta_plate_1763911209923.png',
   };
 
   return (
-    <section id="test-ia" className="relative py-12 md:py-32 my-[100vh] md:my-0 px-6 overflow-hidden flex items-center">
+    <section id="test-ia" className="relative py-12 md:py-32 px-6 overflow-hidden flex items-center">
       {/* Decorative Background Elements */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div
@@ -69,27 +71,42 @@ const TestIASection = () => {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-xl md:text-2xl lg:text-3xl text-universal/90 text-center max-w-3xl md:max-w-5xl mx-auto"
+              className="text-lg md:text-xl lg:text-2xl text-universal/90 text-center max-w-3xl md:max-w-4xl mx-auto"
             >
               Appelez notre restaurant fictif <strong>Pasta O Plomo</strong> et commandez des pâtes italiennes par téléphone. L'assistant IA prendra votre commande en temps réel !
             </motion.p>
           </div>
 
-          {/* Agent vocal + Container d'exemples + Image - Sur la même ligne */}
+          {/* Bouton + Container d'exemples + Image - Sur la même ligne */}
           <div className="flex flex-col md:flex-row items-stretch gap-4 md:gap-8">
-            {/* Colonne gauche: Agent vocal + Container d'exemples */}
+            {/* Colonne gauche: Bouton + Container d'exemples */}
             <div className="flex-1 flex flex-col gap-6">
-              {/* Agent vocal ElevenLabs */}
+              {/* Bouton Démarrer l'appel */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.2 }}
+                className="flex justify-center"
               >
-                <ElevenLabsVoiceAgent
-                  agentId={AGENT_ID}
-                  onConversationEnd={handleConversationEnd}
-                />
+                <motion.button
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={onStartCall}
+                  className="w-full md:w-auto px-12 py-8 rounded-2xl font-black text-2xl md:text-3xl transition-all focus:outline-none focus:ring-4 focus:ring-offset-2"
+                  style={{
+                    background: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%)',
+                    color: '#fdefd5',
+                    border: '5px solid #000',
+                    boxShadow: '10px 10px 0 #000',
+                    fontFamily: 'Outfit, sans-serif',
+                    '--tw-ring-color': '#000',
+                    borderRadius: '16px'
+                  } as React.CSSProperties}
+                  aria-label="Démarrer l'appel avec l'assistant IA"
+                >
+                  📞 DÉMARRER L'APPEL
+                </motion.button>
               </motion.div>
 
               {/* Container d'exemples */}
@@ -159,11 +176,24 @@ const TestIASection = () => {
                   backgroundColor: '#fff'
                 }}
               >
-                <img
-                  src="/assets/pasta_plate_1763911209923.png"
-                  alt="Pâtes italiennes chez Pasta O Plomo"
-                  className="w-full h-full object-cover"
-                />
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={theme}
+                    src={themeImages[theme]}
+                    alt={
+                      theme === 'pizzeria'
+                        ? 'Pizza Pepperoni'
+                        : theme === 'snack'
+                        ? 'Burger savoureux'
+                        : 'Pâtes italiennes chez Pasta O Plomo'
+                    }
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.4, ease: "easeInOut" }}
+                    className="w-full h-full object-cover"
+                  />
+                </AnimatePresence>
                 {/* Overlay gradient pour plus de profondeur */}
                 <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/10" />
               </motion.div>

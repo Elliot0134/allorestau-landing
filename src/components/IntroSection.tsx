@@ -13,7 +13,7 @@ const IntroSection = () => {
 
   // Mots à mettre en bold par thème
   const boldWords = {
-    pizzeria: ['commandes', 'rush', 'vendredi'],
+    pizzeria: ['rush', 'vendredi', 'noie'],
     snack: ['rush', 'midi', 'déborde'],
     restaurant: ['personnel', 'salle', 'téléphone']
   };
@@ -33,37 +33,41 @@ const IntroSection = () => {
   };
 
   return (
-    <section ref={ref} className="relative py-32 px-6" style={{ borderTop: '8px solid #fdefd5' }}>
-      <div className="max-w-5xl mx-auto text-center">
+    <section ref={ref} className="relative py-32 px-4 sm:px-6 overflow-x-hidden" style={{ borderTop: '8px solid #fdefd5' }}>
+      <div className="w-full max-w-5xl mx-auto">
         <motion.div
           key={theme}
           initial={{ opacity: 0, y: 30 }}
           animate={inView && !isTransitioning ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="space-y-8"
+          className="space-y-8 w-full"
         >
           {/* Brutalist Card with Title Only */}
           <div
             style={{
               border: '4px solid #000',
               backgroundColor: '#FDEFD5',
-              padding: '3rem',
-              boxShadow: '12px 12px 0 #000',
               fontFamily: 'Outfit, sans-serif',
-              transition: 'transform 0.2s ease, box-shadow 0.2s ease'
+              transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+              borderRadius: '16px'
             }}
-            className="brutalist-card-hover"
+            className="brutalist-card-hover p-6 sm:p-12 w-full"
           >
             {/* Main Title */}
             <h2
-              className="text-4xl md:text-5xl font-normal leading-tight tracking-tight"
-              style={{ color: 'hsl(var(--theme-bg))' }}
+              className="text-3xl md:text-5xl font-normal leading-tight tracking-tight break-words text-center"
+              style={{
+                color: 'hsl(var(--theme-bg))',
+                wordBreak: 'break-word',
+                overflowWrap: 'break-word',
+                hyphens: 'auto'
+              }}
               dangerouslySetInnerHTML={{ __html: renderTitleWithBold(content.heroTitle.toUpperCase()) }}
             />
           </div>
 
           {/* Subtitle - Outside the card */}
-          <p className="text-2xl md:text-3xl text-universal/90 max-w-4xl mx-auto leading-relaxed font-medium">
+          <p className="text-lg md:text-3xl text-universal/90 max-w-4xl mx-auto leading-relaxed font-medium break-words text-center w-full">
             {content.heroSubtitle}
           </p>
         </motion.div>
