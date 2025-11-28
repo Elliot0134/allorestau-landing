@@ -8,63 +8,54 @@ const Header = () => {
   const themes: ThemeType[] = ['pizzeria', 'snack', 'restaurant'];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 theme-transition">
-      <div className="glass h-24 px-6 flex items-center justify-between">
-        {/* Logo */}
-        <motion.div
-          key={theme}
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3 }}
-          className="flex items-center gap-2"
-        >
-          <div className="text-4xl">{themeContents[theme].icon}</div>
-          <h1 className="text-2xl font-bold text-universal tracking-tight">
-            AlloRestau
-          </h1>
-        </motion.div>
-
-        {/* Theme Tabs */}
-        <div className="flex gap-2">
-          {themes.map((t) => (
-            <button
+    <header className="fixed top-6 left-0 right-0 z-50 flex justify-center pointer-events-none" role="banner">
+      <nav className="pointer-events-auto flex gap-4" role="navigation" aria-label="Sélection de thème">
+        {themes.map((t) => {
+          const isActive = theme === t;
+          return (
+            <motion.button
               key={t}
               onClick={() => setTheme(t)}
+              initial={false}
+              animate={{
+                width: isActive ? 'auto' : '3rem',
+                backgroundColor: '#fdefd5',
+                color: isActive ? 'hsl(var(--theme-bg))' : 'hsl(var(--theme-bg))'
+              }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
               className={`
-                px-6 py-3 rounded-full font-semibold text-base transition-all duration-300
-                ${theme === t
-                  ? 'bg-white/20 text-universal border-b-2 scale-105'
-                  : 'text-universal/60 hover:bg-white/10 hover:text-universal hover:scale-102'
-                }
+                relative flex items-center justify-center rounded-full h-12 px-0 overflow-hidden
+                focus:outline-none
               `}
               style={{
-                borderBottomColor: theme === t ? 'hsl(var(--theme-accent))' : 'transparent'
-              }}
+                '--tw-ring-color': 'hsl(var(--theme-accent))',
+                fontFamily: 'Fredoka, sans-serif',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1)'
+              } as React.CSSProperties}
+              aria-label={`Changer le thème en ${themeContents[t].name}`}
+              aria-pressed={isActive}
             >
-              <span className="mr-2">{themeContents[t].icon}</span>
-              {themeContents[t].name}
-            </button>
-          ))}
-        </div>
+              <div className="w-12 h-12 flex items-center justify-center flex-shrink-0">
+                <span className="text-xl relative z-10">{themeContents[t].icon}</span>
+              </div>
 
-        {/* CTA Button */}
-        <button
-          className="px-6 py-3 rounded-full font-semibold border-2 text-universal transition-all duration-300 hover:scale-105"
-          style={{
-            borderColor: 'hsl(var(--text-universal))',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = 'hsl(var(--text-universal))';
-            e.currentTarget.style.color = 'hsl(var(--theme-bg))';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'transparent';
-            e.currentTarget.style.color = 'hsl(var(--text-universal))';
-          }}
-        >
-          Nous contacter
-        </button>
-      </div>
+              <motion.div
+                initial={{ opacity: 0, width: 0 }}
+                animate={{
+                  opacity: isActive ? 1 : 0,
+                  width: isActive ? 'auto' : 0
+                }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="overflow-hidden"
+              >
+                <span className="font-bold whitespace-nowrap pr-5 text-base uppercase tracking-wider">
+                  {themeContents[t].name}
+                </span>
+              </motion.div>
+            </motion.button>
+          );
+        })}
+      </nav>
     </header>
   );
 };

@@ -1,0 +1,163 @@
+/**
+ * ==============================================
+ * ALLORESTAU - SYSTÈME DE COULEURS
+ * Triple Theme Color System
+ * ==============================================
+ *
+ * Ce fichier contient toutes les couleurs du système triple-thème.
+ * Utilisez ces variables CSS pour maintenir la cohérence visuelle.
+ */
+
+/* ==============================================
+   PIZZERIA THEME 🍕
+   ============================================== */
+
+:root {
+  /* Couleur principale - Background */
+  --pizza-bg: 0 81% 44%;              /* #cc1616 - Rouge vif principal */
+
+  /* Couleur secondaire - Pour le contraste */
+  --pizza-secondary: 0 81% 49%;       /* #e31918 - Rouge clair pour contraste */
+
+  /* Variations */
+  --pizza-light: 0 81% 49%;           /* #e31918 - Version claire */
+  --pizza-dark: 0 81% 35%;            /* Version foncée du rouge */
+
+  /* Accent */
+  --pizza-accent: 51 100% 50%;        /* #ffd700 - Jaune doré */
+}
+
+/* Exemples d'utilisation Pizzeria:
+   background: hsl(var(--pizza-bg));
+   color: hsl(var(--pizza-secondary));
+   border-color: hsl(var(--pizza-accent));
+*/
+
+
+/* ==============================================
+   SNACK THEME 🍔
+   ============================================== */
+
+:root {
+  /* Couleur principale - Background */
+  --snack-bg: 48 96% 41%;             /* #cda404 - Jaune moutarde principal */
+
+  /* Couleur secondaire - Pour le contraste */
+  --snack-secondary: 48 96% 41%;      /* #cda404 - Identique (pas de variation) */
+
+  /* Variations */
+  --snack-light: 48 100% 55%;         /* Version plus claire du jaune */
+  --snack-dark: 48 100% 35%;          /* Version plus foncée du jaune */
+
+  /* Accent */
+  --snack-accent: 16 100% 60%;        /* #ff6b35 - Orange vif */
+}
+
+/* Exemples d'utilisation Snack:
+   background: hsl(var(--snack-bg));
+   color: hsl(var(--snack-secondary));
+   border-color: hsl(var(--snack-accent));
+*/
+
+
+/* ==============================================
+   RESTAURANT THEME 🍽️
+   ============================================== */
+
+:root {
+  /* Couleur principale - Background */
+  --restaurant-bg: 200 100% 14%;      /* #003049 - Bleu foncé principal */
+
+  /* Couleur secondaire - Pour le contraste */
+  --restaurant-secondary: 201 66% 23%; /* #144660 - Bleu moyen pour contraste */
+
+  /* Variations */
+  --restaurant-light: 201 66% 23%;    /* #144660 - Version claire */
+  --restaurant-dark: 200 100% 9%;     /* #001d2e - Version très foncée */
+
+  /* Accent */
+  --restaurant-accent: 28 100% 48%;   /* #f77f00 - Orange chaleureux */
+}
+
+/* Exemples d'utilisation Restaurant:
+   background: hsl(var(--restaurant-bg));
+   color: hsl(var(--restaurant-secondary));
+   border-color: hsl(var(--restaurant-accent));
+*/
+
+
+/* ==============================================
+   COULEURS COMMUNES
+   ============================================== */
+
+:root {
+  /* Texte universel - Blanc cassé */
+  --text-universal: 42 86% 93%;       /* #fdefd5 - Blanc cassé crème */
+  --text-cream: #fdefd5;
+
+  /* Couleurs utilitaires */
+  --white: 0 0% 100%;                 /* #ffffff - Blanc pur */
+  --success: 142 52% 51%;             /* Vert succès */
+  --warning: 38 92% 50%;              /* Orange warning */
+  --error: 0 84% 60%;                 /* Rouge erreur */
+}
+
+
+/* ==============================================
+   VARIABLES DYNAMIQUES
+   ============================================== */
+
+:root {
+  /* Ces variables changent selon le thème actif */
+  --theme-bg: var(--pizza-bg);
+  --theme-secondary: var(--pizza-secondary);
+  --theme-light: var(--pizza-light);
+  --theme-dark: var(--pizza-dark);
+  --theme-accent: var(--pizza-accent);
+}
+
+
+/* ==============================================
+   GUIDE D'UTILISATION
+   ============================================== */
+
+/*
+1. COULEUR DE FOND (Background)
+   Utilisez: hsl(var(--theme-bg))
+   Exemple: background-color: hsl(var(--theme-bg));
+
+2. COULEUR SECONDAIRE (Contraste)
+   Utilisez: hsl(var(--theme-secondary))
+   Exemple: color: hsl(var(--theme-secondary));
+
+3. COULEUR D'ACCENT
+   Utilisez: hsl(var(--theme-accent))
+   Exemple: border-color: hsl(var(--theme-accent));
+
+4. TEXTE UNIVERSEL (Blanc cassé)
+   Utilisez: #fdefd5 ou hsl(var(--text-universal))
+   Exemple: color: #fdefd5;
+
+5. DANS TAILWIND
+   Utilisez style prop:
+   style={{ backgroundColor: 'hsl(var(--theme-bg))' }}
+   style={{ color: 'hsl(var(--theme-secondary))' }}
+*/
+
+
+/* ==============================================
+   CONVERSION HEX ↔ HSL
+   ============================================== */
+
+/*
+PIZZERIA:
+  #cc1616 → hsl(0, 81%, 44%)   [BG Principal]
+  #e31918 → hsl(0, 81%, 49%)   [Secondaire]
+
+SNACK:
+  #cda404 → hsl(48, 96%, 41%) [BG Principal et Secondaire]
+
+RESTAURANT:
+  #003049 → hsl(200, 100%, 14%) [BG Principal]
+  #144660 → hsl(201, 66%, 23%)  [Secondaire]
+*/

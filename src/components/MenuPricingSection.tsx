@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import ReceiptTicket from './ReceiptTicket';
+import BrutalistCard from './BrutalistCard';
 
 interface MenuItem {
   id: string;
@@ -197,54 +199,80 @@ const MenuPricingSection = () => {
   const { monthly, oneTime } = calculateTotal();
 
   const categoryTitles = {
-    entrees: '🥖 ENTRÉES (Obligatoires)',
-    plats: '🍝 PLATS (Options principales)',
-    desserts: '🍰 DESSERTS (Premium)',
-    supplements: '🧂 SUPPLÉMENTS (À la demande)'
+    entrees: { main: 'ENTRÉES', sub: 'Obligatoires' },
+    plats: { main: 'PLATS', sub: 'Options principales' },
+    desserts: { main: 'DESSERTS', sub: 'Premium' },
+    supplements: { main: 'SUPPLÉMENTS', sub: 'À la demande' }
   };
 
   const renderCategory = (category: 'entrees' | 'plats' | 'desserts' | 'supplements') => {
     const items = menuItems.filter(item => item.category === category);
-    
+    const title = categoryTitles[category];
+
     return (
       <div className="mb-12">
-        <h3 className="font-playfair text-3xl font-bold text-gray-800 mb-6 pb-3 border-b-2" style={{ borderBottomColor: 'hsl(var(--theme-accent))' }}>
-          {categoryTitles[category]}
+        <h3 className="text-4xl font-bold mb-8 pb-4 border-b-4 border-black inline-block pr-12" style={{ fontFamily: 'Outfit, sans-serif', color: '#000' }}>
+          {title.main} <span style={{ fontSize: '1.25rem', fontWeight: 'normal', fontStyle: 'italic' }}>({title.sub})</span>
         </h3>
-        
-        <div className="space-y-6">
-          {items.map(item => (
-            <div key={item.id} className="group">
-              <label className="flex items-start gap-4 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={selectedItems[item.id] || false}
-                  onChange={() => toggleItem(item.id, item.required)}
-                  disabled={item.required}
-                  className="mt-1 w-6 h-6 rounded accent-current"
-                  style={{ accentColor: 'hsl(var(--theme-accent))' }}
-                />
-                
-                <div className="flex-1">
-                  <div className="flex items-baseline justify-between mb-2">
-                    <span className="font-inter text-lg font-semibold text-gray-800">
+
+        <div className="grid md:grid-cols-2 gap-4">
+          {items.map((item, index) => (
+            <motion.div
+              key={item.id}
+              className="group relative"
+              initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{
+                duration: 0.5,
+                delay: index * 0.05,
+                ease: "easeOut"
+              }}
+            >
+              <label className="flex flex-col h-full cursor-pointer p-4 rounded-lg transition-all duration-200 border-2 border-black/20 hover:border-black/40"
+                style={{
+                  backgroundColor: 'transparent',
+                  color: 'black',
+                }}
+              >
+                <div className="flex justify-between items-start mb-3">
+                  <div className="flex items-center gap-3">
+                    <motion.div
+                      animate={selectedItems[item.id] ? { scale: [1, 1.2, 1] } : { scale: 1 }}
+                      transition={{ duration: 0.3, ease: "easeOut" }}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedItems[item.id] || false}
+                        onChange={() => toggleItem(item.id, item.required)}
+                        disabled={item.required}
+                        className="w-6 h-6 rounded cursor-pointer appearance-none border-2 border-black checked:bg-black transition-all duration-200 relative"
+                        style={{
+                          backgroundImage: selectedItems[item.id] ? `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E")` : 'none',
+                          backgroundSize: '80%',
+                          backgroundPosition: 'center',
+                          backgroundRepeat: 'no-repeat'
+                        }}
+                        aria-label={`Sélectionner ${item.title}`}
+                      />
+                    </motion.div>
+                    <span className="text-lg font-bold leading-tight" style={{ color: '#000', fontFamily: 'Outfit, sans-serif' }}>
                       {item.title}
                     </span>
-                    <span className="font-playfair text-2xl font-bold ml-4" style={{ color: 'hsl(var(--theme-accent))' }}>
-                      {item.price}€{item.priceType === 'monthly' ? '/mois' : ''}
-                    </span>
                   </div>
-                  
-                  <ul className="space-y-1 pl-6">
-                    {item.description.map((desc, i) => (
-                      <li key={i} className="text-sm text-gray-600">
-                        • {desc}
-                      </li>
-                    ))}
-                  </ul>
+                  <span className="text-xl font-bold whitespace-nowrap" style={{ color: '#000', fontFamily: 'Outfit, sans-serif' }}>
+                    {item.price}€
+                  </span>
                 </div>
+
+                <ul className="space-y-1 pl-8 text-sm text-black/80" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                  {item.description.slice(0, 2).map((desc, i) => (
+                    <li key={i} className="list-disc">
+                      {desc}
+                    </li>
+                  ))}
+                </ul>
               </label>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
@@ -252,79 +280,75 @@ const MenuPricingSection = () => {
   };
 
   return (
-    <section ref={ref} className="relative py-32 px-6">
-      <div className="max-w-5xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-6xl font-bold text-universal mb-4">
-            🍽️ NOTRE CARTE 🍽️
-          </h2>
-          <p className="text-xl text-universal/90">
-            Composez votre menu à la carte
-          </p>
-          <p className="text-lg text-universal/80">
-            Choisissez uniquement ce dont vous avez besoin pour votre restaurant
-          </p>
-        </motion.div>
+    <section id="menu-pricing" ref={ref} className="relative py-32 px-6" aria-labelledby="pricing-title">
+      {/* Grid Pattern Background */}
+      <div
+        className="absolute top-0 right-0 left-0 pointer-events-none"
+        style={{
+          height: '2400px',
+          zIndex: 0
+        }}
+      >
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            backgroundImage: 'linear-gradient(to right, rgba(226, 232, 240, 0.2) 1px, transparent 1px), linear-gradient(to bottom, rgba(226, 232, 240, 0.2) 1px, transparent 1px)',
+            backgroundSize: '20px 30px',
+            WebkitMaskImage: 'radial-gradient(ellipse 80% 70% at 50% 0%, #000 40%, transparent 100%)',
+            maskImage: 'radial-gradient(ellipse 80% 70% at 50% 0%, #000 40%, transparent 100%)'
+          }}
+        />
+      </div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={inView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="menu-card rounded-2xl p-12"
-        >
-          {renderCategory('entrees')}
-          {renderCategory('plats')}
-          {renderCategory('desserts')}
-          {renderCategory('supplements')}
+      <div className="w-[95%] md:max-w-5xl mx-auto relative z-10">
+        <div className="grid lg:grid-cols-3 gap-4 md:gap-8">
+          {/* Menu Items Column */}
+          <div className="lg:col-span-2">
+            <BrutalistCard
+              backgroundColor="#FDEFD5"
+              delay={0.2}
+              ariaLabel="Menu du restaurant"
+              className="h-full"
+              disableHover={true}
+              removeShadowOnMobile={true}
+            >
+              <div className="space-y-12">
+                <div className="text-center mb-8">
+                  <h2 id="pricing-title" className="text-5xl font-black mb-2" style={{ fontFamily: 'Outfit, sans-serif', color: '#000', textTransform: 'uppercase' }}>
+                    🍽️ NOTRE MENU 🍽️
+                  </h2>
+                  <p className="text-lg" style={{ fontFamily: 'Outfit, sans-serif', color: '#666' }}>
+                    Composez votre formule à la carte
+                  </p>
+                </div>
+                {renderCategory('entrees')}
+                {renderCategory('plats')}
+                {renderCategory('desserts')}
+                {renderCategory('supplements')}
+              </div>
+            </BrutalistCard>
+          </div>
 
-          {/* L'Addition */}
-          <motion.div
-            className="mt-16 p-8 rounded-2xl text-center"
-            style={{
-              background: 'hsl(var(--theme-bg))',
-              color: 'hsl(var(--text-universal))'
-            }}
-          >
-            <h3 className="text-4xl font-bold mb-6">🧾 L'ADDITION</h3>
-            
-            <div className="space-y-3 mb-6 text-xl">
-              <p>Base : <span className="font-bold">{monthly}€/mois</span></p>
-              <p>Frais de mise en service : <span className="font-bold">{oneTime}€</span> (une seule fois)</p>
-            </div>
-            
-            <div className="h-1 bg-white/30 my-6" />
-            
+          {/* Sticky Cart Column */}
+          <div className="lg:col-span-1 relative h-full">
             <motion.div
-              key={`${monthly}-${oneTime}`}
-              initial={{ scale: 1.1 }}
-              animate={{ scale: 1 }}
-              className="text-5xl font-black mb-8"
-              style={{ color: 'hsl(var(--theme-accent))' }}
+              initial={{ opacity: 0, x: 20 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="sticky top-24"
             >
-              TOTAL : {monthly}€/mois
+              <ReceiptTicket
+                items={menuItems.filter(item => selectedItems[item.id])}
+                monthly={monthly}
+                oneTime={oneTime}
+              />
             </motion.div>
-
-            <button
-              className="w-full py-5 rounded-xl text-2xl font-bold transition-all hover:scale-105"
-              style={{
-                background: 'hsl(var(--theme-accent))',
-                color: 'hsl(var(--theme-bg))',
-                boxShadow: '0 8px 30px hsla(var(--theme-accent), 0.4)'
-              }}
-            >
-              COMMANDER 🛎️
-            </button>
-
-            <p className="mt-6 text-universal/70 text-sm">
-              Sans engagement • Annulation à tout moment
-            </p>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );

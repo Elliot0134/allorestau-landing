@@ -1,51 +1,95 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;900&family=Poppins:wght@900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Lenis Smooth Scroll */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
 
 /* AlloRestau Design System - Triple Theme Support */
 
 @layer base {
   :root {
     /* Universal Text Color */
-    --text-universal: 42 86% 93%; /* #fdf0d5 */
-    
+    --text-universal: 42 86% 93%;
+    /* #fdefd5 (HSL approx: 42 86% 93%) - kept variable name but updated value concept if needed, though #fdefd5 is very close to existing. Let's force the hex if needed or just use the hex in utilities. */
+    --text-cream: #fdefd5;
+
     /* Pizzeria Theme 🍕 */
-    --pizza-bg: 356 80% 41%; /* #c1131f */
-    --pizza-light: 356 79% 60%; /* #e63946 */
-    --pizza-dark: 356 80% 33%; /* #9a0f17 */
-    --pizza-accent: 51 100% 50%; /* #ffd700 */
-    
+    --pizza-bg: 0 81% 44%;
+    /* #cc1616 - Couleur principale rouge vif */
+    --pizza-secondary: 0 81% 49%;
+    /* #e31918 - Couleur secondaire pour le contraste */
+    --pizza-light: 0 81% 49%;
+    /* #e31918 - Version claire */
+    --pizza-dark: 0 81% 35%;
+    /* Version foncée */
+    --pizza-accent: 51 100% 50%;
+    /* #ffd700 - Accent jaune doré */
+
     /* Snack Theme 🍔 */
-    --snack-bg: 42 87% 45%; /* #dda10a */
-    --snack-light: 44 89% 61%; /* #f4c542 */
-    --snack-dark: 43 87% 38%; /* #b8860b */
-    --snack-accent: 16 100% 60%; /* #ff6b35 */
-    
+    --snack-bg: 48 96% 41%;
+    /* #cda404 - Couleur principale jaune moutarde */
+    --snack-secondary: 48 96% 41%;
+    /* #cda404 - Couleur secondaire (identique) */
+    --snack-light: 48 100% 55%;
+    /* Version plus claire */
+    --snack-dark: 48 100% 35%;
+    /* Version plus foncée */
+    --snack-accent: 16 100% 60%;
+    /* #ff6b35 - Accent orange */
+
     /* Restaurant Theme 🍽️ */
-    --restaurant-bg: 200 100% 14%; /* #003049 */
-    --restaurant-light: 200 80% 24%; /* #0a4a6e */
-    --restaurant-dark: 200 100% 9%; /* #001d2e */
-    --restaurant-accent: 28 100% 48%; /* #f77f00 */
-    
+    --restaurant-bg: 200 100% 14%;
+    /* #003049 - Couleur principale bleu foncé */
+    --restaurant-secondary: 201 66% 23%;
+    /* #144660 - Couleur secondaire pour le contraste */
+    --restaurant-light: 201 66% 23%;
+    /* #144660 - Version claire */
+    --restaurant-dark: 200 100% 9%;
+    /* #001d2e - Version foncée */
+    --restaurant-accent: 28 100% 48%;
+    /* #f77f00 - Accent orange */
+
     /* Common Colors */
     --white: 0 0% 100%;
     --success: 142 52% 51%;
     --warning: 38 92% 50%;
     --error: 0 84% 60%;
-    
+
     /* Dynamic Theme Colors (will be updated via JS) */
     --theme-bg: var(--pizza-bg);
+    --theme-secondary: var(--pizza-secondary);
     --theme-light: var(--pizza-light);
     --theme-dark: var(--pizza-dark);
     --theme-accent: var(--pizza-accent);
-    
+
     --background: var(--theme-bg);
     --foreground: var(--text-universal);
     --primary: var(--theme-accent);
     --primary-foreground: var(--theme-bg);
-    
+
     --radius: 0.5rem;
   }
 }
@@ -54,41 +98,65 @@
   * {
     @apply border-border;
   }
-  
+
   body {
-    @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', sans-serif;
+    @apply bg-background text-[#fdefd5] antialiased;
+    font-family: 'Outfit', sans-serif;
     overflow-x: hidden;
   }
-  
-  h1, h2, h3, h4, h5, h6 {
+
+  .text-universal {
+    color: #fdefd5;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-bold;
   }
 }
 
 @layer utilities {
-  /* Theme Transitions */
-  .theme-transition {
-    transition: background-color 0.5s ease, color 0.3s ease;
+
+  /* Theme Transitions - Smooth color changes */
+  .theme-transition,
+  body,
+  section,
+  header,
+  main,
+  footer {
+    transition: background-color 1s cubic-bezier(0.4, 0, 0.2, 1),
+                color 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.8s cubic-bezier(0.4, 0, 0.2, 1) !important;
   }
-  
+
   .content-transition {
-    transition: opacity 0.3s ease;
+    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  
+
+  /* Smooth theme color transitions for common elements */
+  h1, h2, h3, h4, h5, h6, p, span, div, button, a {
+    transition: color 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
   /* Glassmorphism */
   .glass {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
   }
-  
+
   /* Parallax Effects */
   .parallax-item {
     will-change: transform;
     pointer-events: none;
   }
-  
+
   /* Menu Card (Paper Style) */
   .menu-card {
     background: hsl(42, 78%, 95%);
@@ -96,7 +164,7 @@
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.5);
     position: relative;
   }
-  
+
   .menu-card::before {
     content: '';
     position: absolute;
@@ -108,120 +176,176 @@
     border-width: 0 30px 30px 0;
     border-color: transparent #e0e0e0 transparent transparent;
   }
-  
+
   /* Animations */
   @keyframes pulse-glow {
-    0%, 100% {
+
+    0%,
+    100% {
       box-shadow: 0 10px 40px rgba(255, 215, 0, 0.4);
     }
+
     50% {
       box-shadow: 0 10px 40px rgba(255, 215, 0, 0.7);
     }
   }
-  
+
   @keyframes pulse-active {
-    0%, 100% {
+
+    0%,
+    100% {
       transform: scale(1);
     }
+
     50% {
       transform: scale(1.02);
     }
   }
-  
+
   @keyframes float {
-    0%, 100% {
+
+    0%,
+    100% {
       transform: translateY(0px);
     }
+
     50% {
       transform: translateY(-20px);
     }
   }
-  
+
   @keyframes fade-in {
     from {
       opacity: 0;
       transform: translateY(20px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
     }
   }
-  
+
   @keyframes fade-out {
     from {
       opacity: 1;
       transform: translateY(0);
     }
+
     to {
       opacity: 0;
       transform: translateY(20px);
     }
   }
-  
+
   @keyframes slide-in-right {
     from {
       transform: translateX(100%);
     }
+
     to {
       transform: translateX(0);
     }
   }
-  
+
   @keyframes counter {
     from {
       opacity: 0;
       transform: translateY(20px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
     }
   }
-  
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+      filter: blur(10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0px);
+    }
+  }
+
   .animate-pulse-glow {
     animation: pulse-glow 2s infinite;
   }
-  
+
   .animate-pulse-active {
     animation: pulse-active 1s infinite;
   }
-  
+
   .animate-float {
     animation: float 3s ease-in-out infinite;
   }
-  
+
   .animate-fade-in {
     animation: fade-in 0.3s ease-out;
   }
-  
+
   .animate-fade-out {
     animation: fade-out 0.3s ease-out;
   }
-  
+
   /* Hover Effects */
   .hover-scale {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
-  
+
   .hover-scale:hover {
     transform: scale(1.05);
   }
-  
+
+  /* Brutalist Card Hover - Dynamic and Fast */
+  .brutalist-card-hover {
+    transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .brutalist-card-hover:hover {
+    transform: translate(-3px, -3px) scale(1.03);
+    box-shadow: 13px 13px 0 #000 !important;
+  }
+
   /* Text Styles */
   .text-universal {
-    color: hsl(var(--text-universal));
+    color: #fdefd5;
   }
-  
+
+  /* Brut Design - Updated: Rounded, No Shadow */
+  .btn-brut {
+    background-color: #fdefd5;
+    color: #000000;
+    border-radius: 9999px;
+    box-shadow: none;
+    transition: all 0.2s ease;
+  }
+
+  .btn-brut:hover {
+    transform: scale(1.05);
+    background-color: #fff;
+  }
+
+  .btn-brut:active {
+    transform: scale(0.95);
+  }
+
   /* Gradient Backgrounds */
   .gradient-pizza {
     background: linear-gradient(135deg, hsl(var(--pizza-bg)) 0%, hsl(var(--pizza-dark)) 100%);
   }
-  
+
   .gradient-snack {
     background: linear-gradient(135deg, hsl(var(--snack-bg)) 0%, hsl(var(--snack-light)) 100%);
   }
-  
+
   .gradient-restaurant {
     background: linear-gradient(135deg, hsl(var(--restaurant-bg)) 0%, hsl(var(--restaurant-light)) 100%);
   }
@@ -233,6 +357,6 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-[#fdefd5];
   }
 }
