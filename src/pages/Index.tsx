@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { ThemeProvider } from '@/contexts/ThemeContext';
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import IntroSection from '@/components/IntroSection';
@@ -8,6 +7,7 @@ import WorkflowSection from '@/components/WorkflowSection';
 import MenuPricingSection from '@/components/MenuPricingSection';
 import StatsSection from '@/components/StatsSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
+import DemoSection from '@/components/DemoSection';
 import FAQSection from '@/components/FAQSection';
 import FloatingMenuButton from '@/components/FloatingMenuButton';
 import Footer from '@/components/Footer';
@@ -56,53 +56,52 @@ const Index = () => {
   }, []);
 
   return (
-    <ThemeProvider>
-      <AnimatePresence mode="wait">
-        {isLoading ? (
-          <motion.div
-            key="loader"
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-            className="fixed inset-0 z-50 flex items-center justify-center"
-            style={{
-              backgroundColor: loaderBg
-            }}
+    <AnimatePresence mode="wait">
+      {isLoading ? (
+        <motion.div
+          key="loader"
+          initial={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
+          className="fixed inset-0 z-50 flex items-center justify-center"
+          style={{
+            backgroundColor: loaderBg
+          }}
+        >
+          <Loader themeColor={loaderBg} />
+        </motion.div>
+      ) : (
+        <motion.div
+          key="content"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <ThemeSelectionModal />
+          <SmoothScroll />
+          <SpotlightOverlay isVisible={showSpotlight} onClose={() => setShowSpotlight(false)} />
+          <div
+            className="min-h-screen theme-transition"
+            style={{ backgroundColor: 'hsl(var(--theme-bg))' }}
           >
-            <Loader themeColor={loaderBg} />
-          </motion.div>
-        ) : (
-          <motion.div
-            key="content"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <ThemeSelectionModal />
-            <SmoothScroll />
-            <SpotlightOverlay isVisible={showSpotlight} onClose={() => setShowSpotlight(false)} />
-            <div
-              className="min-h-screen theme-transition"
-              style={{ backgroundColor: 'hsl(var(--theme-bg))' }}
-            >
-              <Header />
-              <FloatingMenuButton />
-              <main>
-                <HeroSection />
-                <IntroSection />
-                <TestIASection onStartCall={() => setShowSpotlight(true)} />
-                <WorkflowSection />
-                <StatsSection />
-                <MenuPricingSection />
-                <TestimonialsSection />
-                <FAQSection />
-              </main>
-              <Footer />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </ThemeProvider>
+            <Header />
+            <FloatingMenuButton />
+            <main>
+              <HeroSection />
+              <IntroSection />
+              <TestIASection onStartCall={() => setShowSpotlight(true)} />
+              <WorkflowSection />
+              <StatsSection />
+              <MenuPricingSection />
+              <TestimonialsSection />
+              <DemoSection />
+              <FAQSection />
+            </main>
+            <Footer />
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 

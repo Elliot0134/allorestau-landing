@@ -21,6 +21,12 @@ const MenuPricingSection = () => {
     triggerOnce: true
   });
 
+  // Observer pour détecter si on est dans la section (pour le pop-up mobile)
+  const [sectionObserverRef, sectionInView] = useInView({
+    threshold: 0,
+    triggerOnce: false
+  });
+
   const [receiptObserverRef, receiptInView] = useInView({
     threshold: 0.3,
     triggerOnce: false
@@ -295,7 +301,15 @@ const MenuPricingSection = () => {
   };
 
   return (
-    <section id="menu-pricing" ref={ref} className="relative py-32 px-4 md:px-6" aria-labelledby="pricing-title">
+    <section
+      id="menu-pricing"
+      ref={(node) => {
+        ref(node);
+        sectionObserverRef(node);
+      }}
+      className="relative py-32 px-6 md:px-8 lg:px-6"
+      aria-labelledby="pricing-title"
+    >
       {/* Grid Pattern Background */}
       <div
         className="absolute top-0 right-0 left-0 pointer-events-none"
@@ -320,9 +334,9 @@ const MenuPricingSection = () => {
       </div>
 
       <div className="max-w-5xl mx-auto relative z-10">
-        <div className="grid lg:grid-cols-3 gap-4 md:gap-8">
+        <div className="grid lg:grid-cols-3 gap-8 lg:gap-8">
           {/* Menu Items Column */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 w-full mx-auto">
             <BrutalistCard
               backgroundColor="#FDEFD5"
               delay={0.2}
@@ -349,7 +363,7 @@ const MenuPricingSection = () => {
           </div>
 
           {/* Sticky Cart Column */}
-          <div className="lg:col-span-1 relative h-full">
+          <div className="lg:col-span-1 relative h-full w-full mx-auto">
             <motion.div
               ref={(node) => {
                 receiptObserverRef(node);
@@ -372,10 +386,10 @@ const MenuPricingSection = () => {
         </div>
       </div>
 
-      {/* Fixed Bill Button - Mobile Only */}
+      {/* Fixed Bill Button - Mobile Only - Visible uniquement dans la section */}
       <FixedBillButton
         monthly={monthly}
-        isVisible={inView && !receiptInView}
+        isVisible={sectionInView && !receiptInView}
         onClick={scrollToBill}
       />
     </section>

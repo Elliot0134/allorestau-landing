@@ -39,11 +39,10 @@ const ReceiptTicket = ({ items, monthly, oneTime }: ReceiptTicketProps) => {
         margin: '0 auto',
       }}
     >
-      {/* Wrapper with shadow */}
+      {/* Wrapper */}
       <div
         style={{
           position: 'relative',
-          boxShadow: '0 10px 40px rgba(0,0,0,0.15)',
         }}
       >
         {/* Top Scalloped Edge - Triangular teeth */}

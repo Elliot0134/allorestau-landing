@@ -33,11 +33,10 @@ const FixedBillButton = ({ monthly, isVisible, onClick }: FixedBillButtonProps) 
             }}
             aria-label="Voir l'addition complète"
           >
-            {/* Wrapper with shadow */}
+            {/* Wrapper */}
             <div
               style={{
                 position: 'relative',
-                boxShadow: '0 -10px 30px rgba(0,0,0,0.2)',
               }}
             >
               {/* Top Scalloped Edge */}

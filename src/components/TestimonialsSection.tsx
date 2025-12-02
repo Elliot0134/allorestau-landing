@@ -32,7 +32,7 @@ const TestimonialsSection = () => {
     ];
 
     return (
-        <section ref={ref} className="relative py-32 px-6" style={{ borderTop: '8px solid #fdefd5' }}>
+        <section ref={ref} className="relative py-32 px-6" style={{ backgroundColor: '#fdefd5' }}>
             <div className="max-w-6xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -40,10 +40,10 @@ const TestimonialsSection = () => {
                     transition={{ duration: 0.6 }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-5xl font-bold mb-4" style={{ color: '#fdefd5' }}>
+                    <h2 className="text-5xl font-bold mb-4" style={{ color: 'hsl(var(--theme-bg))', transition: 'color 0.9s cubic-bezier(0.4, 0, 0.2, 1)' }}>
                         ILS NOUS FONT CONFIANCE
                     </h2>
-                    <p className="text-xl" style={{ color: 'rgba(253, 239, 213, 0.8)' }}>
+                    <p className="text-xl" style={{ color: 'hsl(var(--theme-bg))', opacity: 0.8, transition: 'color 0.9s cubic-bezier(0.4, 0, 0.2, 1)' }}>
                         Découvrez ce que les restaurateurs disent de nous
                     </p>
                 </motion.div>
@@ -56,13 +56,16 @@ const TestimonialsSection = () => {
                             animate={inView ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
                             transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
                             whileHover={{ y: -6, scale: 1.02 }}
-                            transition={{ type: "spring", stiffness: 400, damping: 25 }}
                             className="rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-150 relative"
-                            style={{ backgroundColor: '#fdefd5', fontFamily: 'Outfit, sans-serif' }}
+                            style={{
+                                backgroundColor: 'hsl(var(--theme-bg))',
+                                fontFamily: 'Outfit, sans-serif',
+                                transition: 'background-color 0.9s cubic-bezier(0.4, 0, 0.2, 1)'
+                            }}
                             role="article"
                             aria-label={`Témoignage de ${testimonial.name}`}
                         >
-                            <div className="absolute -top-6 left-8 w-12 h-12 rounded-full flex items-center justify-center text-2xl shadow-md" style={{ background: 'hsl(var(--theme-accent))' }}>
+                            <div className="absolute -top-6 left-8 w-12 h-12 rounded-full flex items-center justify-center text-2xl shadow-md" style={{ backgroundColor: '#fdefd5' }}>
                                 {testimonial.image}
                             </div>
 
@@ -72,13 +75,13 @@ const TestimonialsSection = () => {
                                 ))}
                             </div>
 
-                            <p className="text-black mb-6 italic leading-relaxed">
+                            <p className="mb-6 italic leading-relaxed" style={{ color: '#fdefd5' }}>
                                 "{testimonial.content}"
                             </p>
 
                             <div>
-                                <h4 className="font-bold text-black" style={{ fontFamily: 'Playfair Display, serif' }}>{testimonial.name}</h4>
-                                <p className="text-sm text-black/60">{testimonial.role}</p>
+                                <h4 className="font-bold" style={{ fontFamily: 'Playfair Display, serif', color: '#fdefd5' }}>{testimonial.name}</h4>
+                                <p className="text-sm" style={{ color: 'rgba(253, 239, 213, 0.6)' }}>{testimonial.role}</p>
                             </div>
                         </motion.div>
                     ))}

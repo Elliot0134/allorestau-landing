@@ -17,9 +17,9 @@ const StatsSection = () => {
     },
     {
       icon: '📞',
-      number: 65,
+      number: 100,
       suffix: '%',
-      label: "D'appels manqués récupérés"
+      label: "D'appels récupérés"
     },
     {
       icon: '🚀',
@@ -111,6 +111,82 @@ const StatsSection = () => {
             </div>
           ))}
         </div>
+
+        {/* Message brutaliste sur les appels manqués */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="mt-16 max-w-4xl mx-auto relative"
+        >
+          {/* Guillemet gauche */}
+          <div
+            style={{
+              position: 'absolute',
+              left: '-40px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              fontSize: '8rem',
+              fontWeight: 900,
+              color: 'hsl(var(--theme-bg))',
+              opacity: 0.3,
+              fontFamily: 'Georgia, serif',
+              lineHeight: 1,
+              pointerEvents: 'none'
+            }}
+            className="hidden md:block"
+          >
+            "
+          </div>
+
+          {/* Guillemet droit */}
+          <div
+            style={{
+              position: 'absolute',
+              right: '-40px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              fontSize: '8rem',
+              fontWeight: 900,
+              color: 'hsl(var(--theme-bg))',
+              opacity: 0.3,
+              fontFamily: 'Georgia, serif',
+              lineHeight: 1,
+              pointerEvents: 'none'
+            }}
+            className="hidden md:block"
+          >
+            "
+          </div>
+
+          <div
+            style={{
+              border: '4px solid #000',
+              backgroundColor: '#fdefd5',
+              padding: '2rem 3rem',
+              boxShadow: '12px 12px 0 rgba(0,0,0,0.3)',
+              fontFamily: 'Outfit, sans-serif',
+              borderRadius: '10px',
+              textAlign: 'center',
+              transition: 'background-color 0.9s cubic-bezier(0.4, 0, 0.2, 1)'
+            }}
+          >
+            <p
+              style={{
+                color: 'hsl(var(--theme-bg))',
+                fontWeight: 900,
+                textTransform: 'uppercase',
+                lineHeight: 1.4,
+                letterSpacing: '0.05em',
+                transition: 'color 0.9s cubic-bezier(0.4, 0, 0.2, 1)'
+              }}
+              className="text-xl md:text-3xl"
+            >
+              Un appel manqué pour vous,<br />
+              c'est un client en plus pour votre concurrent
+            </p>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
